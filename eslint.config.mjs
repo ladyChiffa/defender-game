@@ -3,11 +3,30 @@ import globals from "globals";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-  { 
-    files: ["**/*.{js,mjs,cjs}"], 
-    plugins: { js }, 
-    extends: ["js/recommended"], 
-    languageOptions: { globals: globals.browser },
-    ignores: ["dist/*"]
-   },
+  {
+    ignores: ["dist/**", "coverage/**"],
+  },
+  js.configs.recommended,
+  {
+    files: ["js/*.js"],
+    languageOptions: {
+      globals: globals.browser,
+    },
+  },
+  {
+    files: ["src/__test__/**/*.js"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.jest,
+      },
+    },
+  },
+  {
+    files: ["webpack.config.js"],
+    languageOptions: {
+      sourceType: "commonjs",
+      globals: globals.node,
+    },
+  },
 ]);
